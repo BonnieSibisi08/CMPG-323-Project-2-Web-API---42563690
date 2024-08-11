@@ -97,11 +97,11 @@
               "type": "Microsoft.ApiManagement/service/apis",
               "name": "Project2WebAPI-42563690api/Project2WebAPI-42563690",
               "properties": {
-                "displayName": "Project2WebAPI-42563690",
+                "displayName": "Your API",
                 "apiRevision": "1",
                 "description": null,
                 "subscriptionRequired": true,
-                "serviceUrl": null,
+                "serviceUrl": "https://project2webapi-42563690.azurewebsites.net",
                 "path": "",
                 "protocols": [
                   "https"
