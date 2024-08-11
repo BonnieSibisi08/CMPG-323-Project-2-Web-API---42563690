@@ -1,5 +1,11 @@
+using JWTAuthentication.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Project_2_Web_API___42563690.Data;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +21,150 @@ builder.Services.AddControllers().AddNewtonsoftJson(); //for json patch
 builder.Services.AddDbContext<TelemetryContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=4256369cmpg323.database.windows.net;Initial Catalog=cmpg323DB;User ID=BonnieSibisi08;Encrypt=True;Authentication=ActiveDirectoryInteractive")));
 
+// For Identity   
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+
+    .AddDefaultTokenProviders();
+
+
+
+// Adding Authentication   
+
+builder.Services.AddAuthentication(options =>
+
+{
+
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+
+})
+
+            // Adding Jwt Bearer   
+
+            .AddJwtBearer(options =>
+
+            {
+
+                options.SaveToken = true;
+
+                options.RequireHttpsMetadata = false;
+
+                options.TokenValidationParameters = new TokenValidationParameters()
+
+                {
+
+                    ValidateIssuer = true,
+
+                    ValidateAudience = true,
+
+                    ValidateLifetime = true,
+
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+
+                };
+
+            });
+
+
+
+builder.Services.AddAuthorization();
+
+
+
+// Add configuration from appsettings.json 
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+
+    .AddEnvironmentVariables();
+
+
+
+
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle 
+
+builder.Services.AddEndpointsApiExplorer();
+
+
+
+//builder.Services.AddSwaggerGen(); 
+
+builder.Services.AddSwaggerGen(c =>
+
+{
+
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+
+
+
+    // Define the Bearer token security scheme 
+
+    var securityScheme = new OpenApiSecurityScheme
+
+    {
+
+        Name = "Authorization",
+
+        Description = "Enter 'Bearer {token}'",
+
+        In = ParameterLocation.Header,
+
+        Type = SecuritySchemeType.ApiKey,
+
+        Scheme = "Bearer",
+
+        BearerFormat = "JWT"
+
+    };
+
+    c.AddSecurityDefinition("Bearer", securityScheme);
+
+
+
+    // Require the Bearer token for all API operations 
+
+    var securityRequirement = new OpenApiSecurityRequirement
+
+   {
+
+        {
+
+            new OpenApiSecurityScheme
+
+            {
+
+                Reference = new OpenApiReference
+
+                {
+
+                    Type = ReferenceType.SecurityScheme,
+
+                    Id = "Bearer"
+
+                }
+
+            },
+
+            new List<string>()
+
+        }
+
+    };
+
+    c.AddSecurityRequirement(securityRequirement);
+
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +177,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseAuthorization();
+
+IConfiguration configuration = app.Configuration;
+IWebHostEnvironment environment = app.Environment;
 
 app.MapControllers();
 
