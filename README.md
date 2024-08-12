@@ -31,7 +31,8 @@ Below are the API Endpoints created in Azure.
 ![Screenshot 2024-08-12 130058](https://github.com/user-attachments/assets/c8f4b6dd-0902-4068-b113-caf20dd1322c)   
 
 # References
-The attached document contains all references: 
+The attached document contains all references: [References](https://docs.google.com/document/d/1dvefrEEPKA7Y9ddPR44kfFIUtFIgPNkN/edit?usp=sharing&ouid=104985369547771360207&rtpof=true&sd=true)   
+
 
 
 
