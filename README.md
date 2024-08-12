@@ -25,3 +25,15 @@ The use of RESTful APIs ensures that the system adheres to industry best practic
 ![Screenshot 2024-08-12 134633](https://github.com/user-attachments/assets/b9e24c7b-7872-4ab5-9a3d-0b030a1d29fd)
 10. Now you will be able to access all the methods in the categories.
 
+# API MANAGEMENT
+Below are the API Endpoints created in Azure.
+![Screenshot 2024-08-12 130018](https://github.com/user-attachments/assets/46a4ae1b-a43a-4383-8cda-a586ce46b4e4)   
+![Screenshot 2024-08-12 130058](https://github.com/user-attachments/assets/c8f4b6dd-0902-4068-b113-caf20dd1322c)   
+
+# References
+The attached document contains all references: 
+
+
+
+
+
